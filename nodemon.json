@@ -1,0 +1,5 @@
+{
+  "watch": ["src"],
+  "ext": ".ts,.js,.pug",
+  "exec": "postcss ./src/public/styles/tailwind.css -o ./src/public/styles/global.css && ts-node ./src/index.ts"
+}
