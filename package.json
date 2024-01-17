@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
-    "build": "yarn install && postcss ./src/public/styles/tailwind.css -o ./src/public/styles/global.css"
+    "build": "yarn install && tsc ./src/public/js/index.ts --outFile ./src/public/js/index.js && postcss ./src/public/styles/tailwind.css -o ./src/public/styles/global.css"
   },
   "license": "MIT",
   "dependencies": {

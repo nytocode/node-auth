@@ -3,12 +3,19 @@ extends index
 block content
   div(class = 'w-screen h-screen bg-slate-100 flex flex-col gap-4 items-center pt-32')    
     h1(class = 'text-3xl font-semibold text-slate-800') Authenticator
-    form(action = '/signup' method = 'POST' class = 'flex flex-col gap-4 w-[90%] max-w-[400px] mx-auto') 
+    form(id = 'signup-form' class = 'flex flex-col gap-4 w-[90%] max-w-[400px] mx-auto') 
+      input(
+        type = 'text'
+        name = 'name'
+        id= 'name'
+        placeholder = 'Full name'
+        class = 'bg-transparent p-2 border-2 border-slate-800 rounded-xl outline-0 text-slate-900'
+      )
       input(
         type = 'email'
         name = 'email'
         id= 'email'
-        placeholder = 'Email Address'
+        placeholder = 'Email address'
         class = 'bg-transparent p-2 border-2 border-slate-800 rounded-xl outline-0 text-slate-900'
       )
       input(
@@ -22,4 +29,4 @@ block content
         type = 'submit'
         class = 'bg-slate-900 text-slate-100 font-semibold p-2 mt-4 rounded-xl hover:scale-105 transition'
       ) Sign up
-      a(href = '/signin' class = 'text-slate-100 underline') You have already an account. Sign in!
+      a(href = '/signin' class = 'text-slate-800 underline') You have already an account. Sign in!

@@ -1,46 +1,36 @@
 import express, { Application } from "express";
 import path from "path";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import { signin, signup } from "./controllers/auth";
+import cookie_parser from "cookie-parser";
+import body_parser from "body-parser";
 import "./lib/prisma";
-import { isLoggedIn } from "./middlewares/auth";
+import errorHandler from "./middlewares/error";
+import views from "./routes/views";
+import auth from "./routes/auth";
 
 dotenv.config();
 
 const app: Application = express();
 
-// Views settings
+// Pug Views settings
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Body Parser
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // Cookies Parser
-app.use(cookieParser());
+app.use(cookie_parser());
 
+// Body Parser
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT ?? 3001;
 
-app.get("/", isLoggedIn, (req, res) => {
-  res.render("home");
-});
+// ROUTES
+app.use("/", views);
+app.use("/api/v1/auth", auth);
 
-app.get("/signin", (req, res) => {
-  res.render("signin");
-});
-
-app.post("/signin", signin);
-
-app.get("/signup", (req, res) => {
-  res.render("signup");
-});
-
-app.post("/signup", signup);
+app.use(errorHandler);
 
 app.listen(3000, () => {
   console.log(`App listen on port ${port}!`);

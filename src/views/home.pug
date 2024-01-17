@@ -1,5 +1,9 @@
 extends index
 
 block content
-  div(class = 'w-screen h-screen bg-slate-800 flex flex-col gap-4 items-center pt-32')    
-    h1(class = 'text-3xl font-semibold text-slate-100') Home
+  div(class = 'w-screen h-screen bg-slate-100 flex flex-col gap-4 items-center pt-32')    
+    h1(class = 'text-3xl font-semibold text-slate-800') Home
+    button(
+      id = 'btn-logout' 
+      class = 'bg-slate-900 text-slate-100 font-semibold p-2 mt-4 rounded-xl hover:scale-105 transition'
+    ) Logout

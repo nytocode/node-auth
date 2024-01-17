@@ -2,73 +2,111 @@ import { RequestHandler } from "express";
 import prisma from "../lib/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import AppError from "../utils/error";
 
-export const signin: RequestHandler = async (req, res) => {
-  const { email, password } = req.body;
+export const signout: RequestHandler = async (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({
+    status: "success",
+  });
+};
+
+export const signin: RequestHandler = async (req, res, next) => {
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return next(new AppError("Please provide email and password!", 400));
+    }
+
     const user = await prisma.user.findUnique({
       where: {
         email: email,
       },
     });
 
-    if (!user) {
-      res.status(404).json({
-        error: {
-          message: "User doesn't exists!",
-        },
-      });
-    }
-
-    if (!user?.password) {
-      res.status(403).json({
-        error: {
-          message: "Something went wrong!",
-        },
-      });
-    }
-
     const isPasswordCorrect = await bcrypt.compare(password, user?.password!);
 
-    if (!isPasswordCorrect) {
-      res.status(403).json({
-        error: {
-          message: "Password wrong. Try again!",
-        },
-      });
+    if (!user || !isPasswordCorrect) {
+      return next(
+        new AppError(
+          "Invalid email or password. Please try again with the correct credentials.",
+          401,
+        ),
+      );
     }
 
     const token = jwt.sign(
       {
-        email: user?.email,
+        id: user.id,
       },
       process.env.JWT_SECRET!,
+      { expiresIn: process.env.JWT_EXPIRES_IN },
     );
 
-    res.cookie("jwt", token, { httpOnly: true }).redirect("/");
-  } catch (error) {
-    res.status(500).json({
-      error: error,
+    res.cookie("jwt", token, {
+      expires: new Date(
+        Date.now() +
+          parseInt(process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000,
+      ),
+      httpOnly: true,
     });
+
+    user.password = null;
+
+    res.status(200).json({
+      status: "success",
+      token,
+      data: {
+        user,
+      },
+    });
+  } catch (error) {
+    return next(error);
   }
 };
 
-export const signup: RequestHandler = async (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
+export const signup: RequestHandler = async (req, res, next) => {
+  const { email, name, password } = req.body;
   try {
     const hash = await bcrypt.hash(password, 10);
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
+        name,
         email,
         password: hash,
       },
     });
 
-    res.redirect("/signin");
-  } catch (error) {
-    res.status(500).json({
-      error: error,
+    const token = jwt.sign(
+      {
+        id: user.id,
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: process.env.JWT_EXPIRES_IN },
+    );
+
+    res.cookie("jwt", token, {
+      expires: new Date(
+        Date.now() +
+          parseInt(process.env.JWT_COOKIE_EXPIRES_IN!) * 24 * 60 * 60 * 1000,
+      ),
+      httpOnly: true,
     });
+
+    user.password = null;
+
+    res.status(200).json({
+      status: "success",
+      token,
+      data: {
+        user,
+      },
+    });
+  } catch (error) {
+    return next(error);
   }
 };

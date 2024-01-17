@@ -1,18 +1,34 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import prisma from "../lib/prisma";
 
-export const isLoggedIn: RequestHandler = (req, res, next) => {
+export const isLoggedIn = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const token = req.cookies["jwt"];
 
-  if (!token) {
-    res.redirect("/signin");
+  if (token) {
+    try {
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+      const user = await prisma.user.findUnique({
+        where: {
+          id: decoded.id,
+        },
+      });
+
+      if (!user) {
+        res.redirect("/signin");
+      }
+
+      res.locals.user = user;
+      return next();
+    } catch (error) {
+      console.log(error);
+      res.redirect("/signin");
+    }
   }
 
-  const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
-
-  if (!decoded) {
-    res.redirect("/signin");
-  }
-
-  next();
+  res.redirect("/signin");
 };
