@@ -2,6 +2,9 @@ const signin_form = document.querySelector("#signin-form");
 const signup_form = document.querySelector("#signup-form");
 const logout_btn = document.querySelector("#btn-logout");
 
+const baseUrl = "https://node-auth-otpd.onrender.com";
+// http://localhost:3000
+
 enum AlertType {
   Error,
   Success,
@@ -9,7 +12,7 @@ enum AlertType {
 
 const login = async (email: string, password: string) => {
   try {
-    const res = await fetch("http://localhost:3000/api/v1/auth/signin", {
+    const res = await fetch(`${baseUrl}/api/v1/auth/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +56,7 @@ const register = async ({
   password: string;
 }) => {
   try {
-    const res = await fetch("http://localhost:3000/api/v1/auth/signup", {
+    const res = await fetch(`${baseUrl}/api/v1/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +94,7 @@ if (signup_form) {
 
 const logout = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/v1/auth/signout");
+    const res = await fetch(`${baseUrl}/api/v1/auth/signout`);
 
     if ((await res.json()).status === "success") {
       alert("Logout successful!");
