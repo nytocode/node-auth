@@ -38,6 +38,9 @@ var _this = this;
 var signin_form = document.querySelector("#signin-form");
 var signup_form = document.querySelector("#signup-form");
 var logout_btn = document.querySelector("#btn-logout");
+var edit_form = document.querySelector("#edit-form");
+// const baseUrl = "https://node-auth-otpd.onrender.com";
+var baseUrl = "http://localhost:3000";
 var AlertType;
 (function (AlertType) {
     AlertType[AlertType["Error"] = 0] = "Error";
@@ -49,7 +52,7 @@ var login = function (email, password) { return __awaiter(_this, void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, fetch("http://localhost:3000/api/v1/auth/signin", {
+                return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/signin"), {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -97,7 +100,7 @@ var register = function (_a) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch("http://localhost:3000/api/v1/auth/signup", {
+                    return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/signup"), {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -146,7 +149,7 @@ var logout = function () { return __awaiter(_this, void 0, void 0, function () {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, fetch("http://localhost:3000/api/v1/auth/signout")];
+                return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/signout"))];
             case 1:
                 res = _a.sent();
                 return [4 /*yield*/, res.json()];
@@ -169,5 +172,52 @@ var logout = function () { return __awaiter(_this, void 0, void 0, function () {
 if (logout_btn) {
     logout_btn.addEventListener("click", function () {
         logout();
+    });
+}
+var update = function (_a) {
+    var name = _a.name;
+    return __awaiter(_this, void 0, void 0, function () {
+        var res, error_4;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/user/me"), {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                name: name,
+                            }),
+                        })];
+                case 1:
+                    res = _b.sent();
+                    return [4 /*yield*/, res.json()];
+                case 2:
+                    if ((_b.sent()).status === "success") {
+                        alert("Update successful!");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_4 = _b.sent();
+                    alert(error_4.message);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+};
+if (edit_form) {
+    edit_form.addEventListener("submit", function (e) {
+        var _a;
+        e.preventDefault();
+        var name = (_a = document.querySelector("#name")) === null || _a === void 0 ? void 0 : _a.value;
+        if (name) {
+            update({ name: name });
+        }
     });
 }

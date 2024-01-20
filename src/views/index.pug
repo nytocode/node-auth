@@ -7,6 +7,8 @@ html
       title= title
       link(rel='stylesheet' type="text/css" href='./styles/global.css')
     body
-      block content
+      div(class = 'w-screen h-screen bg-slate-100 flex flex-col gap-4 items-center')    
+        include _header
+        block content
 
       script(src='./js/index.js')

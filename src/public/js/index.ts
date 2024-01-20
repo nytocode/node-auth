@@ -1,9 +1,10 @@
 const signin_form = document.querySelector("#signin-form");
 const signup_form = document.querySelector("#signup-form");
 const logout_btn = document.querySelector("#btn-logout");
+const edit_form = document.querySelector("#edit-form");
 
 const baseUrl = "https://node-auth-otpd.onrender.com";
-// http://localhost:3000
+// const baseUrl = "http://localhost:3000";
 
 enum AlertType {
   Error,
@@ -110,5 +111,38 @@ const logout = async () => {
 if (logout_btn) {
   logout_btn.addEventListener("click", () => {
     logout();
+  });
+}
+
+const update = async ({ name }: { name: string }) => {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/user/me`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    });
+
+    if ((await res.json()).status === "success") {
+      alert("Update successful!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+if (edit_form) {
+  edit_form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.querySelector<HTMLInputElement>("#name")?.value;
+    if (name) {
+      update({ name });
+    }
   });
 }

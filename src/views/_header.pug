@@ -1,0 +1,10 @@
+header(class = 'w-[90%] mx-auto py-4 flex justify-between items-center') 
+  nav
+    a(href = '/' class = 'text-2xl font-semibold') Node Authenticator 
+  nav 
+    if user 
+      button(
+        id = 'btn-logout' 
+        class = 'text-slate-900 font-medium'
+      ) Logout
+

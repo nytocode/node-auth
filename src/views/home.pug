@@ -1,9 +1,15 @@
 extends index
 
 block content
-  div(class = 'w-screen h-screen bg-slate-100 flex flex-col gap-4 items-center pt-32')    
-    h1(class = 'text-3xl font-semibold text-slate-800') Home
-    button(
-      id = 'btn-logout' 
-      class = 'bg-slate-900 text-slate-100 font-semibold p-2 mt-4 rounded-xl hover:scale-105 transition'
-    ) Logout
+  div(class = 'w-[90%]')
+    ul(class = 'flex flex-col gap-2') 
+      li 
+        label(class = 'font-semibold text-xl') Name
+        p(class = 'text-xl') #{user.name}
+      li 
+        label(class = 'font-semibold text-xl') Email
+        p(class = 'text-xl') #{user.email}
+      a(
+        href = '/edit'
+        class = 'inline-block md:w-fit text-center flex-1 bg-slate-900 text-slate-100 font-semibold px-8 py-2 mt-4 rounded-xl'
+      ) Edit

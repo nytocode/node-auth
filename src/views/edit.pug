@@ -1,0 +1,30 @@
+extend index 
+  
+block content 
+    form(id='edit-form' class = 'flex flex-col gap-4 w-[90%] max-w-[400px]') 
+      input(
+        type = 'name'
+        name = 'text'
+        id= 'name'
+        placeholder = 'Full name'
+        value=`${user.name}`
+        class = 'bg-transparent p-2 border-2 border-slate-800 rounded-xl outline-0 text-slate-900'
+      )
+      input(
+        type = 'email'
+        name = 'email'
+        id= 'email'
+        disabled
+        placeholder = 'Email address'
+        value=`${user.email}`
+        class = 'bg-transparent p-2 border-2 border-slate-800 rounded-xl outline-0 text-slate-900'
+      )
+      div(class = 'flex flex-col-reverse md:flex-row gap-2')
+        a(
+          href = "/"
+          class = 'flex-1 text-slate-900 text-center border-2 border-slate-900 font-semibold p-2 rounded-xl'
+        ) Cancel
+        button(
+          type = 'submit'
+          class = 'flex-1 bg-slate-900 text-slate-100 border-2 border-slate-900 font-semibold p-2 rounded-xl'
+        ) Confirm
