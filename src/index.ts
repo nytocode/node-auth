@@ -7,6 +7,7 @@ import "./lib/prisma";
 import errorHandler from "./middlewares/error";
 import views from "./routes/views";
 import auth from "./routes/auth";
+import user from "./routes/user";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ const port = process.env.PORT ?? 3001;
 // ROUTES
 app.use("/", views);
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/user", user);
 
 app.use(errorHandler);
 
