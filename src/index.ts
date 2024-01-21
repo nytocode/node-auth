@@ -16,7 +16,7 @@ const app: Application = express();
 // Pug Views settings
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/public")));
 
 // Cookies Parser
 app.use(cookie_parser());
