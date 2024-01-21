@@ -39,8 +39,11 @@ var signin_form = document.querySelector("#signin-form");
 var signup_form = document.querySelector("#signup-form");
 var logout_btn = document.querySelector("#btn-logout");
 var edit_form = document.querySelector("#edit-form");
-// const baseUrl = "https://node-auth-otpd.onrender.com";
-var baseUrl = "http://localhost:3000";
+var edit_password_form = document.querySelector("#edit-password-form");
+var forgot_password_form = document.querySelector("#forgot-password-form");
+var reset_password_form = document.querySelector("#reset-password-form");
+var baseUrl = "https://node-auth-otpd.onrender.com";
+// const baseUrl = "http://localhost:3000";
 var AlertType;
 (function (AlertType) {
     AlertType[AlertType["Error"] = 0] = "Error";
@@ -198,7 +201,7 @@ var update = function (_a) {
                     if ((_b.sent()).status === "success") {
                         alert("Update successful!");
                         setTimeout(function () {
-                            window.location.reload();
+                            window.location.assign("/");
                         }, 1000);
                     }
                     return [3 /*break*/, 4];
@@ -218,6 +221,149 @@ if (edit_form) {
         var name = (_a = document.querySelector("#name")) === null || _a === void 0 ? void 0 : _a.value;
         if (name) {
             update({ name: name });
+        }
+    });
+}
+var updatePassword = function (_a) {
+    var oldPassword = _a.oldPassword, newPassword = _a.newPassword;
+    return __awaiter(_this, void 0, void 0, function () {
+        var res, error_5;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/update-password"), {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                oldPassword: oldPassword,
+                                newPassword: newPassword,
+                            }),
+                        })];
+                case 1:
+                    res = _b.sent();
+                    return [4 /*yield*/, res.json()];
+                case 2:
+                    if ((_b.sent()).status === "success") {
+                        alert("Update successful!");
+                        setTimeout(function () {
+                            window.location.assign("/");
+                        }, 1000);
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_5 = _b.sent();
+                    alert(error_5.message);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+};
+if (edit_password_form) {
+    edit_password_form.addEventListener("submit", function (e) {
+        var _a, _b;
+        e.preventDefault();
+        var oldPassword = (_a = document.querySelector("#old-password")) === null || _a === void 0 ? void 0 : _a.value;
+        var newPassword = (_b = document.querySelector("#new-password")) === null || _b === void 0 ? void 0 : _b.value;
+        if (oldPassword && newPassword) {
+            updatePassword({ oldPassword: oldPassword, newPassword: newPassword });
+        }
+    });
+}
+var forgotPassword = function (_a) {
+    var email = _a.email;
+    return __awaiter(_this, void 0, void 0, function () {
+        var res, error_6;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/forgot-password"), {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                email: email,
+                            }),
+                        })];
+                case 1:
+                    res = _b.sent();
+                    return [4 /*yield*/, res.json()];
+                case 2:
+                    if ((_b.sent()).status === "success") {
+                        alert("Check your email inbox!");
+                        setTimeout(function () {
+                            window.location.assign("/");
+                        }, 1000);
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_6 = _b.sent();
+                    alert(error_6.message);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+};
+if (forgot_password_form) {
+    forgot_password_form.addEventListener("submit", function (e) {
+        var _a;
+        e.preventDefault();
+        var email = (_a = document.querySelector("#email")) === null || _a === void 0 ? void 0 : _a.value;
+        if (email) {
+            forgotPassword({ email: email });
+        }
+    });
+}
+var resetPassword = function (_a) {
+    var password = _a.password;
+    return __awaiter(_this, void 0, void 0, function () {
+        var res, error_7;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/reset-password"), {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                password: password,
+                            }),
+                        })];
+                case 1:
+                    res = _b.sent();
+                    return [4 /*yield*/, res.json()];
+                case 2:
+                    if ((_b.sent()).status === "success") {
+                        alert("Password reset!");
+                        setTimeout(function () {
+                            window.location.assign("/");
+                        }, 1000);
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_7 = _b.sent();
+                    alert(error_7.message);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+};
+if (reset_password_form) {
+    reset_password_form.addEventListener("submit", function (e) {
+        var _a;
+        e.preventDefault();
+        var password = (_a = document.querySelector("#password")) === null || _a === void 0 ? void 0 : _a.value;
+        if (password) {
+            resetPassword({ password: password });
         }
     });
 }

@@ -1,7 +1,7 @@
 extends index
 
 block content
-  div(class = 'w-[90%]')
+  div(class = 'flex flex-col gap-4 w-[90%] max-w-[500px]')
     ul(class = 'flex flex-col gap-2') 
       li 
         label(class = 'font-semibold text-xl') Name
@@ -9,7 +9,12 @@ block content
       li 
         label(class = 'font-semibold text-xl') Email
         p(class = 'text-xl') #{user.email}
-      a(
-        href = '/edit'
-        class = 'inline-block md:w-fit text-center flex-1 bg-slate-900 text-slate-100 font-semibold px-8 py-2 mt-4 rounded-xl'
-      ) Edit
+      div(class = 'flex flex-col-reverse md:flex-row gap-2 mt-4')
+        a(
+          href = '/edit'
+          class = 'inline-block md:w-fit text-center flex-1 bg-slate-900 text-slate-100 font-semibold px-8 py-2 rounded-xl'
+        ) Edit
+        a(
+          href = '/edit-password'
+          class = 'inline-block md:w-fit text-center flex-1 bg-slate-900 text-slate-100 font-semibold px-8 py-2 rounded-xl'
+        ) Change Password

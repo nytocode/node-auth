@@ -23,3 +23,21 @@ export const edit: RequestHandler = (req, res) => {
     title: "Authenticator - Edit",
   });
 };
+
+export const editPassword: RequestHandler = (req, res) => {
+  res.render("edit-password", {
+    title: "Authenticator - Edit password",
+  });
+};
+
+export const forgotPassword: RequestHandler = (req, res) => {
+  res.render("forgot-password", {
+    title: "Authenticator - Forgot password",
+  });
+};
+
+export const resetPassword: RequestHandler = (req, res) => {
+  res.render("reset-password", {
+    title: "Authenticator - Reset password",
+  });
+};
