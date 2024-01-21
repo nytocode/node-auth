@@ -70,7 +70,7 @@ var login = function (email, password) { return __awaiter(_this, void 0, void 0,
                     alert("Login successful!");
                     setTimeout(function () {
                         window.location.assign("/");
-                    }, 1500);
+                    }, 1000);
                 }
                 return [3 /*break*/, 4];
             case 3:
@@ -119,7 +119,7 @@ var register = function (_a) {
                         alert("Register successful!");
                         setTimeout(function () {
                             window.location.assign("/");
-                        }, 1500);
+                        }, 1000);
                     }
                     return [3 /*break*/, 4];
                 case 3:

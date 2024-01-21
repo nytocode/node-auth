@@ -28,7 +28,7 @@ const login = async (email: string, password: string) => {
       alert("Login successful!");
       setTimeout(() => {
         window.location.assign("/");
-      }, 1500);
+      }, 1000);
     }
   } catch (error: any) {
     alert(error.message);
@@ -73,7 +73,7 @@ const register = async ({
       alert("Register successful!");
       setTimeout(() => {
         window.location.assign("/");
-      }, 1500);
+      }, 1000);
     }
   } catch (error: any) {
     alert(error.message);
