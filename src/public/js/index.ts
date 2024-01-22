@@ -226,9 +226,17 @@ if (forgot_password_form) {
   });
 }
 
-const resetPassword = async ({ password }: { password: string }) => {
+console.log();
+
+const resetPassword = async ({
+  password,
+  token,
+}: {
+  password: string;
+  token: string;
+}) => {
   try {
-    const res = await fetch(`${baseUrl}/api/v1/auth/reset-password`, {
+    const res = await fetch(`${baseUrl}/api/v1/auth/reset-password/${token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -254,8 +262,9 @@ if (reset_password_form) {
     e.preventDefault();
     const password =
       document.querySelector<HTMLInputElement>("#password")?.value;
+    const token = window.location.pathname.split("/")[2];
     if (password) {
-      resetPassword({ password });
+      resetPassword({ password, token });
     }
   });
 }

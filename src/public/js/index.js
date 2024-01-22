@@ -320,15 +320,16 @@ if (forgot_password_form) {
         }
     });
 }
+console.log();
 var resetPassword = function (_a) {
-    var password = _a.password;
+    var password = _a.password, token = _a.token;
     return __awaiter(_this, void 0, void 0, function () {
         var res, error_7;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/reset-password"), {
+                    return [4 /*yield*/, fetch("".concat(baseUrl, "/api/v1/auth/reset-password/").concat(token), {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -362,8 +363,9 @@ if (reset_password_form) {
         var _a;
         e.preventDefault();
         var password = (_a = document.querySelector("#password")) === null || _a === void 0 ? void 0 : _a.value;
+        var token = window.location.pathname.split("/")[2];
         if (password) {
-            resetPassword({ password: password });
+            resetPassword({ password: password, token: token });
         }
     });
 }
