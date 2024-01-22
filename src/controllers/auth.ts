@@ -257,12 +257,14 @@ export const resetPassword: RequestHandler = async (req, res, next) => {
       return next(new AppError("Token is invalid or has expired", 400));
     }
 
+    const hash = await bcrypt.hash(password, 10);
+
     await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
-        password: password,
+        password: hash,
         passwordResetExpires: null,
         passwordResetToken: null,
         passwordChangedAt: new Date(),
